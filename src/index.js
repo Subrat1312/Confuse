@@ -8,14 +8,14 @@ const sessions = require("express-session")
 const { apiV1 } = require("./routes")
 const { connectDb } = require("./db")
 const { UserModel } = require("./models/user")
-
+const path=require('path');
 const app = express()
 
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
-const PORT= process.env.PORT || 8080;
+
 app.use(
   sessions({
     secret: process.env.SESSION_SECRET,
@@ -24,6 +24,7 @@ app.use(
     resave: true,
   })
 )
+const PORT=process.env.PORT || 8080;
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("*", (req, res) => {
